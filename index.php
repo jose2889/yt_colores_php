@@ -7,7 +7,20 @@ $gsent->execute();
 $resultado = $gsent->fetchAll();
 
 
-var_dump($resultado)
+// var_dump($resultado)
+
+//AGREGAR
+if ($_POST){
+    $color = $_POST['color'];
+    $descripcion = $_POST['descripcion'];
+
+    $sql_agregar = 'INSERT INTO colores (color,descripcion) VALUES (?,?)';
+    $sentencias_sql = $pdo->prepare($sql_agregar);
+    $sentencias_sql->execute(array($color,$descripcion));
+    header('location:index.php');
+    
+}
+
 
 ?>
 
@@ -28,7 +41,6 @@ var_dump($resultado)
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-
                 <?php foreach($resultado as $dato): ?>
                 <div class="alert alert-<?php echo $dato["color"] ?> text-uppercase"  role="alert">
                     <?php echo $dato["color"] ?>
@@ -36,6 +48,14 @@ var_dump($resultado)
                     <?php echo $dato["descripcion"] ?>
                 </div>
                 <?php endforeach ?>
+            </div>
+            <div class="col-md-6">
+            <h2>Agregar Elementos</h2>
+                <form method="POST">
+                <input type="text" class="form-control mt-3" name="color" id="">
+                <input type="text" class="form-control mt-3" name="descripcion" id="">
+                <button class="btn btn-primary mt-3">Agregar</button>
+                </form>
             </div>
         </div>        
     </div>
